@@ -17,7 +17,7 @@ largeur_y_perso=25
 largeur_x_mechant=35
 largeur_y_mechant=30
 
-Jeu=fenetre(largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso)
+Jeu=fenetre(largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso)
 Jeu.geometry("700x500")
 
 mechant=PhotoImage(file="mechant.gif")
