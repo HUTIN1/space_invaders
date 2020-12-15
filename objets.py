@@ -24,8 +24,8 @@ class cPerso(cObjets):
             self.posX += 20
 
         #Problème avec appel de cMissile (on veut créer plusieurs missiles).      
-    def fTirer()
-    tirer=cMissile()
+    def fTirer():
+        tirer=cMissile()
 
 
 class cMechant(cObjets):
