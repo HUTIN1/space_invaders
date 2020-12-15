@@ -11,9 +11,14 @@ class cObjets:
         self.__canevas=canevas
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image)
 
+    def fGet(self):
+        return self.__posX,self.__posY
 
 
 class cPerso(cObjets):
+    def __init__(self):
+        self.__nb_tire=0
+
     def fBouger(self):
         touche=event.keysym
 
@@ -30,8 +35,10 @@ class cPerso(cObjets):
   
 
         #Problème avec appel de cMissile (on veut créer plusieurs missiles).      
-    def fTirer():
-        tirer=cMissile()
+    def fTirer(self):
+
+
+        
 
 
 class cMechant(cObjets):
@@ -62,9 +69,6 @@ class cMissile(cObjets):
         self._vitesse = -20
         self.__posY -= 20
         self.__canevas.move(self.__image,0,self.__vitesse)
-
-        
-
 
 
 
