@@ -1,7 +1,7 @@
-from Tkinter import
+
 
 class cObjets:
-    def __init_(self,largeurX,largeurY,tags,image,posX,posY,canvas):
+    def __init_(self,largeurX,largeurY,tags,image,posX,posY,canevas):
         self.__largeurX=largeurX
         self.__largeurY=largeurY
         self.__tags=tags
