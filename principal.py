@@ -27,5 +27,6 @@ missile=PhotoImage(file="missile.gif")
 Jeu.setimage(mechant,perso,missile)
 
 
+
 Jeu.mainloop()
 

@@ -8,14 +8,14 @@ Created on Tue Dec 15 08:57:47 2020
 
 
 
-from objets import cPerso, cMechant
+from objets import cPerso, cMechant, cMissile
 
 from tkinter import Tk, Canvas, Button
 
 
 
 class fenetre(Tk):
-    def __init__(self,largeur_x_mechant,largeur_y_mechantlargeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
+    def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
         Tk.__init__(self)
         self.__mechant=None
         self.__largeur_x_mechant=largeur_x_mechant
@@ -49,18 +49,23 @@ class fenetre(Tk):
         self.__image_perso=perso
         self.__image_missile=missile
         
+    def settirer(self,numero,posx,posy):
+        self.__missiles[numero]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,"missile",
+                      self.__image_missile,posx,posy,self.canvas,self)
+        
+        
     def start(self):
-        self.__perso=cPerso(self.__largeur_x_pero,self.__largeur_y_pero,
-                            "perso",self.__image_perso,400,400,self.canvas)
+        self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
+                            "perso",self.__image_perso,400,400,self.canvas,self)
         self.__mechant=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            "mechant",self.__image_mechant,400,400,self.canvas)
+                            "mechant",self.__image_mechant,100,100,self.canvas,self)
         
         
 
 
 
-    def fCollision(self,posX_missile,posY_missile):
+    def fCollision(self,posX_missile,posY_missile,numero_missile):
         mX,mY=self.__mechant.get()
         if self.__posX_missile==mX and self.__posY_missile+self.__largeur_y_missile==mY+self.__largeur_y_mechant :
             self.__mechant=None
-            self.__missile=
+            del self.__missile[numero_missile]
