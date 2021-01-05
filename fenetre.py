@@ -79,7 +79,7 @@ class fenetre(Tk):
             if mX>=470 or mX<=30:
                 a=1
         if a==1:
-            for i in range (len(self.__mechant)):
+            for i in self.__mechant:
                 self.__mechant[i].fChangecote()
                 self.__mechant[i].fChangeposY()
                 
