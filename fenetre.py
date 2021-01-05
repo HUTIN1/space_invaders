@@ -87,6 +87,13 @@ class fenetre(Tk):
                 
         self.after(500,self.fAllmechant)
 
+        #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
+    def fGameover (self):
+        vX,vY=self.__perso.fGet()
+        for i in self.__mechant:
+            mX,mY=self.__mechant[i].fGet()
+            if vX==mX and vY==mY:
+                print("Perdu")
 
 
 
