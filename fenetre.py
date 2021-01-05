@@ -62,6 +62,13 @@ class fenetre(Tk):
         
         
 
+    def  fAllmechant(self):
+        for i in range (len(self.__mechant)):
+            get
+            if pos.__X>=470:
+                cote=1
+            if pos.__X<=30:
+                cote=2
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile):
