@@ -65,7 +65,7 @@ class fenetre(Tk):
         X=100
         Y=100
         for i in range (4):
-            self.__mechant[i]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+            self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
                             "mechant",self.__image_mechant,X,Y,self.canvas,self)
             X=X+35
         self.after(500,self.fAllmechant)
@@ -89,16 +89,20 @@ class fenetre(Tk):
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile):
+        l=[]
         for cle, mechant in self.__mechant.items():
             (mX,mY)=mechant.fGet()
             if mX-self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY-self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
                 print("collision")
                 mechant.setmort()
-                del self.__mechant[cle]
-                del self.__missiles[numero_missile]
+                l.append(cle)             
                 print(self.__missiles,"missile")
                 print(self.__mechant,"mechant")
                 print(numero_missile)
+        if len(l)!=0:
+            del self.__mechant[cle]
+            del self.__missiles[numero_missile]
+        
 
 
             
