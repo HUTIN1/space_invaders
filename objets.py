@@ -108,7 +108,7 @@ class cMissile():
         self.__posY -= 20
         self.__canevas.move(self.__image,0,self.__vitesse)
         self.__fen.fCollision(self.__posX,self.__posY,self.__numero)
-        self.__fen.after(1000,self.fDeplacement_missile)
+        self.__fen.after(200,self.fDeplacement_missile)
         
 
 
