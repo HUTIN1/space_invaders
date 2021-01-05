@@ -6,6 +6,14 @@ Created on Tue Dec 15 08:57:47 2020
 @author: nathan
 """
 
+"""
+TO DO
+tuer plusieur méchant
+pimpé
+gameover
+enlever le bug du bouton game
+"""
+
 
 
 from objets import cPerso, cMechant, cMissile
