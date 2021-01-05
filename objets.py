@@ -22,16 +22,17 @@ class cPerso():
 
     def fBougerGauche(self,event):
         #Déplacement de notre vaisseau à gauche
-        self.__vitesse = -20
-        self.__posX -= 20
-        self.__canevas.move(self.__image,self.__vitesse,0)
-  
+        if self.__posX>=30:
+            self.__vitesse = -20
+            self.__posX -= 20
+            self.__canevas.move(self.__image,self.__vitesse,0)
+
     def fBougerDroite(self,event):
         #Déplacement de notre vaisseau à droite
-        self.__vitesse = 20
-        self.__posX += 20
-        self.__canevas.move(self.__image,self.__vitesse,0)
-  
+        if self.__posX<=470:
+            self.__vitesse = 20
+            self.__posX += 20
+            self.__canevas.move(self.__image,self.__vitesse,0)
 
         #Problème avec appel de cMissile (on veut créer plusieurs missiles).      
     def fTirer(self,event):
@@ -58,22 +59,29 @@ class cMechant():
     def fGet(self):
         return (self.__posX,self.__posY)
 
+    def fChangecote(self):
+        if self.__cote==1:
+            self.__cote==2
+        else:
+            self.__cote==1
+
+    def fChangeposY(self):
+        self.__posY+=20
+        self.__vitesse = 20
+        self.__canevas.move(self.__image,self.__vitesse,0)
+
+
     def fDeplacement_mechant(self):
         if self.__cote==1: #1=le méchant se déplace vers la droite
             self.__vitesse = 20
-            self.__posX += 20           
+            self.__posX += 20         
             self.__canevas.move(self.__image,self.__vitesse,0)
 
-        elif self.__cote==0: #2=le méchant se déplace vers la gauche
+        elif self.__cote==2: #2=le méchant se déplace vers la gauche
             self.__vitesse =  -20      
             self.__posX -= 20
             self.__canevas.move(self.__image,self.__vitesse,0)
 
-
-        elif self.__cote==2: #3=le méchant descend d'un étage
-            self.__vitesse = 20
-            self.__posY += 20
-            self.__canevas.move(self.__image,0,self.__vitesse)
         self.__fen.after(1000,self.fDeplacement_mechant)
 
 
@@ -99,8 +107,13 @@ class cMissile():
         self.__vitesse = -20
         self.__posY -= 20
         self.__canevas.move(self.__image,0,self.__vitesse)
+<<<<<<< HEAD
         self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self)
         
+=======
+        self.__fen.fCollision(self.__posX,self.__posY,self.__numero)
+        self.__fen.after(200,self.fDeplacement_missile)
+>>>>>>> f335a85a9a36f4523f6ac5e98fc88bc6bae2c54f
         
 
 
