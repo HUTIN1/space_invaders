@@ -33,6 +33,7 @@ class fenetre(Tk):
         self.__image_fond=None
         self.creer_widget()
 
+
     def creer_widget(self):
         self.canvas=Canvas(self,width=500,height=500)
         self.canvas.place(x=0,y=0)
@@ -63,6 +64,7 @@ class fenetre(Tk):
             self.__mechant.append(cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
                             "mechant",self.__image_mechant,X,Y,self.canvas,self))
             X=X+35
+        self.after(500,self.fAllmechant)
         
         
 
@@ -76,6 +78,8 @@ class fenetre(Tk):
             for i in range (len(self.__mechant)):
                 self.__mechant[i].fChangecote()
                 self.__mechant[i].fChangeposY()
+                
+        self.after(500,self.fAllmechant)
 
 
 

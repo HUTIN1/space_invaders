@@ -61,13 +61,13 @@ class cMechant():
 
     def fChangecote(self):
         if self.__cote==1:
-            self.__cote==2
+            self.__cote=2
         else:
-            self.__cote==1
+            self.__cote=1
 
     def fChangeposY(self):
         self.__posY+=20
-        self.__vitesse = 20
+        self.__vitesse=20
         self.__canevas.move(self.__image,0,self.__vitesse)
 
 
@@ -82,7 +82,7 @@ class cMechant():
             self.__posX -= 20
             self.__canevas.move(self.__image,self.__vitesse,0)
 
-        self.__fen.after(1000,self.fDeplacement_mechant)
+        self.__fen.after(500,self.fDeplacement_mechant)
 
 
 

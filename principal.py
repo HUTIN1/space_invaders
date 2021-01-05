@@ -28,4 +28,3 @@ Jeu.setimage(mechant,perso,missile)
 
 
 Jeu.mainloop()
-
