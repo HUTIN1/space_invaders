@@ -78,7 +78,7 @@ class cMechant():
         else:
             self.__cote=1
 
-        #Fonctio permettant de faire descendre les méchants sur l'écran
+        #Fonction permettant de faire descendre les méchants sur l'écran
     def fChangeposY(self):
         self.__posY+=20
         self.__vitesse=20

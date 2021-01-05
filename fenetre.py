@@ -74,7 +74,7 @@ class fenetre(Tk):
     #Fonction permettant de gérer le déplacement du "bloc" de méchants en particulier lorsque le groupe de méchant doit changer de direction
     def  fAllmechant(self):
         a=0
-        for i in range (len(self.__mechant)):
+        for i in self.__mechant:
             mX,mY=self.__mechant[i].fGet()
             if mX>=470 or mX<=30:
                 a=1
