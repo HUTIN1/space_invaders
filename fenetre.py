@@ -85,18 +85,16 @@ class fenetre(Tk):
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile):
-        toucher=0
         for index, item in enumerate(self.__mechant):
             (mX,mY)=item.fGet()
             if mX-self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY-self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
                 print("collision")
-                self.__mechant.pop(index)
+                item.setmort()
+                del self.__mechant[item.gettags()]
                 del self.__missiles[numero_missile]
                 print(self.__missiles,"missile")
                 print(self.__mechant,"mechant")
                 print(numero_missile)
-                toucher=1
-        if toucher==0:
-            self.after(200,missile.fDeplacement_missile)
+
 
             
