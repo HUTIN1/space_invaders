@@ -19,7 +19,6 @@ enlever le bug du bouton game
 from objets import cPerso, cMechant, cMissile
 
 from tkinter import Tk, Canvas, Button
-from random import randint
 
 
 
@@ -90,6 +89,7 @@ class fenetre(Tk):
                 a=1
         if a==1:
             for i in self.__mechant:
+                print(i)
                 self.__mechant[i].fChangecote()
                 self.__mechant[i].fChangeposY()
                 
@@ -98,7 +98,7 @@ class fenetre(Tk):
         #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
     def fGameover (self):
         vX,vY=self.__perso.fGet()
-        for i in self.__mechant:
+        for i in self.__mechant.key():
             mX,mY=self.__mechant[i].fGet()
             if vX==mX and vY==mY:
                 print("Perdu")
@@ -109,18 +109,18 @@ class fenetre(Tk):
         l=[]
         for cle, mechant in self.__mechant.items():
             (mX,mY)=mechant.fGet()
-            if mX-self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY-self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
+            if mX-self.__largeur_x_mechant/2 <= posX_missile <= mX+self.__largeur_x_mechant/2 and mY-self.__largeur_y_mechant/2 <= posY_missile <= mY+self.__largeur_y_mechant/2:
                 print("collision")
-                mechant.setmort()
-                l.append(cle)             
-                print(self.__missiles,"missile")
-                print(self.__mechant,"mechant",type(cle))
-                print(numero_missile)
+                l.append(cle)
+                l.append(mechant)
         if len(l)!=0:
-            del self.__mechant[cle]
+            del self.__mechant[l[0]]
             del self.__missiles[numero_missile]
-            print(self.__missiles,"missile")
-            print(self.__mechant,"mechant",)
-
+            l[1].setmort()
+            missile.setmort()
+            
+        if posY_missile<=0:
+            del self.__missiles[numero_missile]
+            missile.setmort()
 
             

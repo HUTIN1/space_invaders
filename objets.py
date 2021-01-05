@@ -57,21 +57,16 @@ class cMechant():
         self.__canevas=canevas
         self.__vie="vie"
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image, tags="mechant"+tags)
-        self.__fen.after(1000,self.fDeplacement_mechant)
+        self.__fen.after(500,self.fDeplacement_mechant)
         
         #Fonction permettant de retourner les positions du méchant
     def fGet(self):
         return (self.__posX,self.__posY)
     
     def setmort(self):
-        self.__vie="mort"
-
-    def gettags(self):
-        return self.__tags
-    
+        self.__vie="mort" 
 
         #Fonction permettant de changer le "cote" qui est utilisé dans la fonction fDeplacement_mechant
-
     def fChangecote(self):
         if self.__cote==1:
             self.__cote=2
@@ -100,8 +95,8 @@ class cMechant():
         if self.__vie=="vie":
             self.__fen.after(500,self.fDeplacement_mechant)
         else:
-            self.__canevas.delete("mechant"+str(self.__tags))
-            print("oui")
+            self.__canevas.delete("mechant"+self.__tags)
+            print("del image mechant",self.__tags)
 
 
 
@@ -118,7 +113,7 @@ class cMissile():
         self.__canevas=canevas
         self.__vie="vie"
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image,tags="missile"+str(numero))
-        fenetre.after(200,self.fDeplacement_missile)
+        fenetre.after(100,self.fDeplacement_missile)
         
         #Fonction permettant de retourner les positions du missile
     def fGet(self):
@@ -126,17 +121,18 @@ class cMissile():
     
     def setmort(self):
         self.__vie="mort"
+
         
         #Fonction permettant le déplacement du missile
     def fDeplacement_missile(self):
-        self.__vitesse = -20
-        self.__posY -= 20
+        self.__vitesse = -10
+        self.__posY -= 10
         self.__canevas.move(self.__image,0,self.__vitesse)
         self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self)
         if self.__vie=="vie":
-            self.__fen.after(200,self.fDeplacement_missile)
+            self.__fen.after(100,self.fDeplacement_missile)
         else:
-            self.__canevas.delete("mechant"+str(self.__numero))
+            self.__canevas.delete("missile"+str(self.__numero))
         
 
         
