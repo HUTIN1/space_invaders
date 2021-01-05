@@ -91,7 +91,7 @@ class cMechant():
         if self.__vie=="vie":
             self.__fen.after(500,self.fDeplacement_mechant)
         else:
-            self.__canevas.delete("mechant"+str(tags))
+            self.__canevas.delete("mechant"+str(self.__tags))
 
 
 
@@ -121,7 +121,7 @@ class cMissile():
         self.__canevas.move(self.__image,0,self.__vitesse)
         self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self)
         if self.__vie=="vie":
-            self.after(200,self.fDeplacement_missile)
+            self.__fen.after(200,self.fDeplacement_missile)
         else:
             self.__canevas.delete("mechant"+str(self.__numero))
         
