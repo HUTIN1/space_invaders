@@ -51,7 +51,7 @@ class fenetre(Tk):
         
     def settirer(self,numero,posx,posy):
         self.__missiles[numero]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,"missile",
-                      self.__image_missile,posx,posy,self.canvas,self)
+                      self.__image_missile,posx,posy,self.canvas,self,numero)
         
         
     def start(self):
@@ -72,7 +72,8 @@ class fenetre(Tk):
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile):
-        mX,mY=self.__mechant.get()
-        if self.__posX_missile==mX and self.__posY_missile+self.__largeur_y_missile==mY+self.__largeur_y_mechant :
+        mX,mY=self.__mechant.fGet()
+        if mX+self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY+self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
             self.__mechant=None
             del self.__missile[numero_missile]
+            
