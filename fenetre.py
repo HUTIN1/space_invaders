@@ -15,14 +15,15 @@ from tkinter import Tk, Canvas, Button
 
 
 class fenetre(Tk):
+    # Initialisation de la fenêtre
     def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
         Tk.__init__(self)
-        self.__mechant={}
+        self.__mechant={} #Dictionnaire contenant tous les méchants
         self.__largeur_x_mechant=largeur_x_mechant
         self.__largeur_y_mechant=largeur_y_mechant
-        self.__perso=None
-        self.__missiles={}
-        self.__blocks=[]
+        self.__perso=None #Création de notre vaisseau
+        self.__missiles={} #Dictionnaire contenant tous les missiles
+        self.__blocks=[] 
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
@@ -33,7 +34,7 @@ class fenetre(Tk):
         self.__image_fond=None
         self.creer_widget()
 
-
+        #Fonction permet de créer les widget du canvas ainsi que des boutons pour quitter et lancer le jeu.
     def creer_widget(self):
         self.canvas=Canvas(self,width=500,height=500)
         self.canvas.place(x=0,y=0)
@@ -44,19 +45,21 @@ class fenetre(Tk):
         self.game=Button(self,text="Game",command=self.start)
         self.game.place(x=550,y=200)
 
-        
+        #Fonction permettant de définir les images et les attribuer à la classe
     def setimage(self,mechant,perso,missile):
         self.__image_mechant=mechant
         self.__image_perso=perso
         self.__image_missile=missile
         
+        #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
     def settirer(self,numero,posx,posy):
         self.__missiles[numero]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,"missile",
                       self.__image_missile,posx,posy,self.canvas,self,numero)
         
         
+        #Fonction permettant de lancer le programme lorsqu'on appuie sur le boutton "game", il crée les méchants et notre vaisseau
     def start(self):
-        
+
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             self.__image_perso,400,400,self.canvas,self)
         X=100
@@ -68,7 +71,7 @@ class fenetre(Tk):
         self.after(500,self.fAllmechant)
         
         
-
+    #Fonction permettant de gérer le déplacement du "bloc" de méchants en particulier lorsque le groupe de méchant doit changer de direction
     def  fAllmechant(self):
         a=0
         for i in range (len(self.__mechant)):
