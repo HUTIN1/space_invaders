@@ -84,6 +84,6 @@ class fenetre(Tk):
             self.__mechant.pop(0)
             del self.__missile[numero_missile]
         else:
-            self.after(1000,missile.fDeplacement_missile)
+            self.after(200,missile.fDeplacement_missile)
 
             
