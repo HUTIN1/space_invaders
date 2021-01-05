@@ -93,7 +93,7 @@ class cMissile():
         self.__largeurY=largeurY
         self.__tags=tags
         self.__posX=posX
-        self.__posY=posY   
+        self.__posY=posY-20   
         self.__numero=numero
         self.__vitesse=20
         self.__canevas=canevas
