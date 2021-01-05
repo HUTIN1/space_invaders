@@ -2,17 +2,16 @@
 
 
 class cPerso():
-    def __init__(self,largeurX,largeurY,tags,image,posX,posY,canevas,fenetre):
+    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre):
         self.__nb_tire=0
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
-        self.__tags=tags
         self.__posX=posX
         self.__posY=posY        
         self.__vitesse=20
         self.__canevas=canevas
-        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image)
+        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image, tags="perso")
         fenetre.bind('<Button-1>',self.fTirer)
         fenetre.bind('q',self.fBougerGauche)
         fenetre.bind('d',self.fBougerDroite)
@@ -53,7 +52,7 @@ class cMechant():
         self.__posY=posY        
         self.__vitesse=20
         self.__canevas=canevas
-        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image)
+        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image, tags="mechant"+tags)
         self.__fen.after(1000,self.fDeplacement_mechant)
         
     def fGet(self):
@@ -91,13 +90,12 @@ class cMissile():
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
-        self.__tags=tags
         self.__posX=posX
         self.__posY=posY-20   
         self.__numero=numero
         self.__vitesse=20
         self.__canevas=canevas
-        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image)
+        self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image,tags="missile"+str(numero))
         fenetre.after(200,self.fDeplacement_missile)
         
     def fGet(self):

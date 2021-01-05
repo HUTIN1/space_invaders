@@ -57,7 +57,7 @@ class fenetre(Tk):
         
     def start(self):
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
-                            "perso",self.__image_perso,400,400,self.canvas,self)
+                            self.__image_perso,400,400,self.canvas,self)
         X=100
         Y=100
         for i in range (4):
@@ -89,9 +89,12 @@ class fenetre(Tk):
         for index, item in enumerate(self.__mechant):
             (mX,mY)=item.fGet()
             if mX-self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY-self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
-                print("oui")
+                print("collision")
                 self.__mechant.pop(index)
-                del self.__missile[numero_missile]
+                del self.__missiles[numero_missile]
+                print(self.__missiles,"missile")
+                print(self.__mechant,"mechant")
+                print(numero_missile)
                 toucher=1
         if toucher==0:
             self.after(200,missile.fDeplacement_missile)
