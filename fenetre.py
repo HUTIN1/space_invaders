@@ -57,8 +57,12 @@ class fenetre(Tk):
     def start(self):
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             "perso",self.__image_perso,400,400,self.canvas,self)
-        self.__mechant.append(cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            "mechant",self.__image_mechant,100,100,self.canvas,self))
+        X=100
+        Y=100
+        for i in range (4):
+            self.__mechant.append(cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                            "mechant",self.__image_mechant,X,Y,self.canvas,self))
+            X=X+35
         
         
 
