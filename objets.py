@@ -68,7 +68,7 @@ class cMechant():
     def fChangeposY(self):
         self.__posY+=20
         self.__vitesse = 20
-        self.__canevas.move(self.__image,self.__vitesse,0)
+        self.__canevas.move(self.__image,0,self.__vitesse)
 
 
     def fDeplacement_mechant(self):
