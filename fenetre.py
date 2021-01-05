@@ -17,7 +17,7 @@ from tkinter import Tk, Canvas, Button
 class fenetre(Tk):
     def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
         Tk.__init__(self)
-        self.__mechant=[]
+        self.__mechant={}
         self.__largeur_x_mechant=largeur_x_mechant
         self.__largeur_y_mechant=largeur_y_mechant
         self.__perso=None
@@ -56,13 +56,14 @@ class fenetre(Tk):
         
         
     def start(self):
+        
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             self.__image_perso,400,400,self.canvas,self)
         X=100
         Y=100
         for i in range (4):
-            self.__mechant.append(cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            "mechant",self.__image_mechant,X,Y,self.canvas,self))
+            self.__mechant[i]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                            "mechant",self.__image_mechant,X,Y,self.canvas,self)
             X=X+35
         self.after(500,self.fAllmechant)
         
