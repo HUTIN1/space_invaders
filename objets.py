@@ -59,6 +59,18 @@ class cMechant():
     def fGet(self):
         return self.__posX,self.__posY
 
+    def fChangecote(self):
+        if self.__cote==1:
+            self.__cote==2
+        else:
+            self.__cote==1
+
+    def fChangeposY(self):
+        self.__posY+=20
+        self.__vitesse = 20
+        self.__canevas.move(self.__image,self.__vitesse,0)
+
+
     def fDeplacement_mechant(self):
         if self.__cote==1: #1=le méchant se déplace vers la droite
             self.__vitesse = 20
