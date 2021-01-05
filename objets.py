@@ -56,7 +56,7 @@ class cMechant():
         self.__fen.after(1000,self.fDeplacement_mechant)
         
     def fGet(self):
-        return self.__posX,self.__posY
+        return (self.__posX,self.__posY)
 
     def fDeplacement_mechant(self):
         if self.__cote==1: #1=le méchant se déplace vers la droite
@@ -93,14 +93,14 @@ class cMissile():
         fenetre.after(1000,self.fDeplacement_missile)
         
     def fGet(self):
-        return self.__posX,self.__posY
+        return (self.__posX, self.__posY)
         
     def fDeplacement_missile(self):
         self.__vitesse = -20
         self.__posY -= 20
         self.__canevas.move(self.__image,0,self.__vitesse)
-        self.__fen.fCollision(self.__posX,self.__posY,self.__numero)
-        self.__fen.after(1000,self.fDeplacement_missile)
+        self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self)
+        
         
 
 

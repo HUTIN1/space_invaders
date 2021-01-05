@@ -17,7 +17,7 @@ from tkinter import Tk, Canvas, Button
 class fenetre(Tk):
     def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
         Tk.__init__(self)
-        self.__mechant=None
+        self.__mechant=[]
         self.__largeur_x_mechant=largeur_x_mechant
         self.__largeur_y_mechant=largeur_y_mechant
         self.__perso=None
@@ -57,16 +57,21 @@ class fenetre(Tk):
     def start(self):
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             "perso",self.__image_perso,400,400,self.canvas,self)
-        self.__mechant=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            "mechant",self.__image_mechant,100,100,self.canvas,self)
+        self.__mechant.append(cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                            "mechant",self.__image_mechant,100,100,self.canvas,self))
         
         
 
 
 
-    def fCollision(self,posX_missile,posY_missile,numero_missile):
-        mX,mY=self.__mechant.fGet()
-        if mX+self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY+self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
-            self.__mechant=None
+    def fCollision(self,posX_missile,posY_missile,numero_missile,missile):
+        (mX,mY)=self.__mechant[0].fGet()
+        print(type(mX))
+        if mX-self.__largeur_x_missile/2 <= posX_missile <= mX+self.__largeur_x_missile/2 and mY-self.__largeur_y_missile/2 <= posY_missile <= mY+self.__largeur_y_missile/2:
+            print("oui")
+            self.__mechant.pop(0)
             del self.__missile[numero_missile]
+        else:
+            self.after(1000,missile.fDeplacement_missile)
+
             
