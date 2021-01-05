@@ -101,6 +101,7 @@ class cMechant():
             self.__fen.after(500,self.fDeplacement_mechant)
         else:
             self.__canevas.delete("mechant"+str(self.__tags))
+            print("oui")
 
 
 

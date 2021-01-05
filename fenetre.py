@@ -11,6 +11,7 @@ Created on Tue Dec 15 08:57:47 2020
 from objets import cPerso, cMechant, cMissile
 
 from tkinter import Tk, Canvas, Button
+from random import randint
 
 
 
@@ -31,6 +32,7 @@ class fenetre(Tk):
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
         self.__largeur_y_perso=largeur_y_perso
+
         self.__image_fond=None
         self.creer_widget()
 
@@ -55,7 +57,7 @@ class fenetre(Tk):
     def settirer(self,numero,posx,posy):
         self.__missiles[numero]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,"missile",
                       self.__image_missile,posx,posy,self.canvas,self,numero)
-        
+    
         
         #Fonction permettant de lancer le programme lorsqu'on appuie sur le boutton "game", il crée les méchants et notre vaisseau
     def start(self):
@@ -66,7 +68,7 @@ class fenetre(Tk):
         Y=100
         for i in range (4):
             self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            "mechant",self.__image_mechant,X,Y,self.canvas,self)
+                            str(i),self.__image_mechant,X,Y,self.canvas,self)
             X=X+35
         self.after(500,self.fAllmechant)
         
@@ -97,12 +99,13 @@ class fenetre(Tk):
                 mechant.setmort()
                 l.append(cle)             
                 print(self.__missiles,"missile")
-                print(self.__mechant,"mechant")
+                print(self.__mechant,"mechant",type(cle))
                 print(numero_missile)
         if len(l)!=0:
             del self.__mechant[cle]
             del self.__missiles[numero_missile]
-        
+            print(self.__missiles,"missile")
+            print(self.__mechant,"mechant",)
 
 
             
