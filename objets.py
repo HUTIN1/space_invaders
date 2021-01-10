@@ -70,7 +70,6 @@ class cMechant():
         return (self.__posX,self.__posY)
     
     def setmort(self):
-        print("MORT")
         self.__vie="mort" 
 
         #Fonction permettant de changer le "cote" qui est utilisé dans la fonction fDeplacement_mechant

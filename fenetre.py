@@ -18,7 +18,7 @@ enlever le bug du bouton game
 
 from objets import cPerso, cMechant, cMissile
 
-from tkinter import Tk, Canvas, Button
+from tkinter import Tk, Canvas, Button, Label, IntVar
 
 
 
@@ -35,6 +35,7 @@ class fenetre(Tk):
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
+        self.__score=IntVar()
         self.__largeur_x_missile=largeur_x_missile
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
@@ -53,6 +54,12 @@ class fenetre(Tk):
         
         self.game=Button(self,text="Game",command=self.start)
         self.game.place(x=550,y=200)
+
+        self.__score.set(0)
+        self.label_score=Label(self,textvariable=self.__score) 
+        self.label_score.place(x=550,y=100)
+
+        
 
         #Fonction permettant de définir les images et les attribuer à la classe
     def setimage(self,mechant,perso,missile):
@@ -105,7 +112,6 @@ class fenetre(Tk):
 
         #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
     def fGame_over (self):
-            print("Game")
             for cle in self.__mechant.keys():
                 self.__mechant[cle].setmort()
             self.__mechant={}
@@ -136,9 +142,17 @@ class fenetre(Tk):
             del self.__missiles[numero_missile]
             l[1].setmort()
             missile.setmort()
+            self.fScore()
             
         if posY_missile<=0:
             del self.__missiles[numero_missile]
             missile.setmort()
 
-            
+
+    def fScore(self):
+        self.__score.set(self.__score.get()+100000)
+    
+
+
+ 
+
