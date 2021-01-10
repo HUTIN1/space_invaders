@@ -39,8 +39,9 @@ class fenetre(Tk):
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
         self.__largeur_y_perso=largeur_y_perso
-
+        self.__nbvie=3
         self.__image_fond=None
+        self.__nb_tire=0
         self.creer_widget()
 
         #Fonction permet de créer les widget du canvas ainsi que des boutons pour quitter et lancer le jeu.
@@ -61,9 +62,10 @@ class fenetre(Tk):
         self.__image_missile=missile
         
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
-    def settirer(self,numero,posx,posy):
-        self.__missiles[numero]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,"missile",
-                      self.__image_missile,posx,posy,self.canvas,self,numero)
+    def settirer(self,posx,posy,vitesse,camp):
+        self.__missiles[self.__nb_tire]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,
+                      self.__image_missile,posx,posy,self.canvas,self,self.__nb_tire,camp,vitesse)
+        self.__nb_tire+=1
     
         
         #Fonction permettant de lancer le programme lorsqu'on appuie sur le boutton "game", il crée les méchants et notre vaisseau
@@ -105,22 +107,32 @@ class fenetre(Tk):
 
 
 
-    def fCollision(self,posX_missile,posY_missile,numero_missile,missile):
+    def fCollision(self,posX_missile,posY_missile,numero_missile,missile,camp):
+        print(self.__missiles)
         l=[]
-        for cle, mechant in self.__mechant.items():
-            (mX,mY)=mechant.fGet()
+        if camp=="perso":
+            for cle, mechant in self.__mechant.items():
+                (mX,mY)=mechant.fGet()
+                if mX-self.__largeur_x_mechant/2 <= posX_missile <= mX+self.__largeur_x_mechant/2 and mY-self.__largeur_y_mechant/2 <= posY_missile <= mY+self.__largeur_y_mechant/2:
+                    print("collision")
+                    l.append(cle)
+                    l.append(mechant)
+            if len(l)!=0:
+                del self.__mechant[l[0]]
+                del self.__missiles[numero_missile]
+                l[1].setmort()
+                missile.setmort()
+        elif camp=="mechant":
+            mX,mY=self.__perso.fGet()
             if mX-self.__largeur_x_mechant/2 <= posX_missile <= mX+self.__largeur_x_mechant/2 and mY-self.__largeur_y_mechant/2 <= posY_missile <= mY+self.__largeur_y_mechant/2:
-                print("collision")
-                l.append(cle)
-                l.append(mechant)
-        if len(l)!=0:
-            del self.__mechant[l[0]]
-            del self.__missiles[numero_missile]
-            l[1].setmort()
-            missile.setmort()
-            
-        if posY_missile<=0:
-            del self.__missiles[numero_missile]
-            missile.setmort()
+                self.__vie=self.__vie-1
+                del self.__missiles[numero_missile]
+                missile.setmort()
+                if self.__vie==0:
+                    self.fGameover()
+                
+        if posY_missile<=0 and posY_missile>=500:
+                del self.__missiles[numero_missile]
+                missile.setmort()
 
             

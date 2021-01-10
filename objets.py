@@ -4,7 +4,6 @@
 class cPerso():
     #Initialisation du perso (=vaisseau)
     def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre):
-        self.__nb_tire=0
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
@@ -37,8 +36,7 @@ class cPerso():
 
         #Problème avec appel de cMissile (on veut créer plusieurs missiles).      
     def fTirer(self,event):
-            self.__fen.settirer(self.__nb_tire,self.__posX,self.__posY)
-            self.__nb_tire+=1
+            self.__fen.settirer(self.__posX,self.__posY,-10,"perso")
 
         
 
@@ -102,7 +100,7 @@ class cMechant():
 
 class cMissile():
     #Initialisation du missile
-    def __init__(self,largeurX,largeurY,tags,image,posX,posY,canevas,fenetre,numero):
+    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre,numero,camp,vitesse):
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
@@ -111,7 +109,9 @@ class cMissile():
         self.__numero=numero
         self.__vitesse=20 
         self.__canevas=canevas
+        self.__vitesse=vitesse
         self.__vie="vie"
+        self.__camp=camp
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image,tags="missile"+str(numero))
         fenetre.after(100,self.fDeplacement_missile)
         
@@ -125,10 +125,9 @@ class cMissile():
         
         #Fonction permettant le déplacement du missile
     def fDeplacement_missile(self):
-        self.__vitesse = -10
-        self.__posY -= 10
+        self.__posY += self.__vitesse
         self.__canevas.move(self.__image,0,self.__vitesse)
-        self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self)
+        self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self,self.__camp)
         if self.__vie=="vie":
             self.__fen.after(100,self.fDeplacement_missile)
         else:
