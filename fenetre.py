@@ -110,7 +110,6 @@ class fenetre(Tk):
                 self.__mechant[cle].setmort()
             self.__mechant={}
 
-
     def fVaisseau_touche(self):
         print(self.__perso)
         vX,vY=self.__perso.fGet()
