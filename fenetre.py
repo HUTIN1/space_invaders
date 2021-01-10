@@ -23,7 +23,10 @@ from tkinter import Tk, Canvas, Button, Label, IntVar
 
 class fenetre(Tk):
     # Initialisation de la fenêtre
-    def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,largeur_x_perso,largeur_y_perso):
+    def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,
+                 largeur_x_perso,largeur_y_perso,freq_missile,freq_mechant,
+                 pas_mechant,pas_missile,pas_perso,proba_missile_mechant,nb_mechant,
+                 nb_ligne_mechant):
         Tk.__init__(self)
         self.__mechant={} #Dictionnaire contenant tous les méchants
         self.__largeur_x_mechant=largeur_x_mechant
@@ -39,6 +42,14 @@ class fenetre(Tk):
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
         self.__largeur_y_perso=largeur_y_perso
+        self.__freq_missile=freq_missile
+        self.__freq_mechant=freq_mechant
+        self.__pas_mechant=pas_mechant
+        self.__pas_missile=pas_missile
+        self.__pas_perso=pas_perso
+        self.__proba_missile_mechant=proba_missile_mechant
+        self.__nb_mechant=nb_mechant
+        self.__nb_ligne_mechant=nb_ligne_mechant
         self.__nbvie=3
         self.__image_fond=None
         self.__nb_tire=0
@@ -68,13 +79,16 @@ class fenetre(Tk):
         self.__image_perso=perso
         self.__image_missile=missile
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
-                            self.__image_perso,400,400,self.canvas,self)
+                            self.__image_perso,400,400,self.canvas,self,self.__pas_perso)
 
 
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
-    def settirer(self,posx,posy,vitesse,camp):
+    def settirer(self,posx,posy,camp):
+        pas=self.__pas_missile
+        if camp=="perso":
+            pas=-pas
         self.__missiles[self.__nb_tire]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,
-                      self.__image_missile,posx,posy,self.canvas,self,self.__nb_tire,camp,vitesse)
+                      self.__image_missile,posx,posy,self.canvas,self,self.__nb_tire,camp,pas,self.__freq_missile)
         self.__nb_tire+=1
     
         
@@ -83,16 +97,28 @@ class fenetre(Tk):
         self.after(500,self.fAllmechant)
         X=100
         Y=100
-        for i in range (4):
-            self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            str(i),self.__image_mechant,X,Y,self.canvas,self)
-            X=X+35
-        X=100
-        Y=150
-        for i in range (4,8):
-            self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
-                            str(i),self.__image_mechant,X,Y,self.canvas,self)
-            X=X+35
+        a=0
+        b=self.__nb_mechant//self.__nb_ligne_mechant
+        if self.__nb_mechant%self.__nb_ligne_mechant >= 1:
+            a=1
+        for j in range(self.__nb_ligne_mechant+a):
+            X=100
+            if j<=self.__nb_ligne_mechant-1:
+                for i in range (j*b,j*b+b):
+                    print(i)
+                    self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                                    str(i),self.__image_mechant,X,Y,self.canvas,self,self.__pas_mechant,
+                                    self.__freq_mechant,self.__proba_missile_mechant)
+                    X=X+35
+                Y+=50
+            else:
+                for i in range(j*b,j*b+self.__nb_mechant%self.__nb_ligne_mechant):
+                    self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                                    str(i),self.__image_mechant,X,Y,self.canvas,self,self.__pas_mechant,
+                                    self.__freq_mechant,self.__proba_missile_mechant)
+                    X=X+35
+                Y+=50
+
 
         
         
@@ -108,8 +134,10 @@ class fenetre(Tk):
                 self.__mechant[i].fChangecote()
                 self.__mechant[i].fChangeposY()
         if self.__nbvie!=0:
-            self.after(100,self.fAllmechant)
+            self.after(self.__freq_mechant,self.fAllmechant)
             self.fVaisseau_touche()
+            
+            
 
         #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
     def fGame_over (self):
@@ -130,13 +158,11 @@ class fenetre(Tk):
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile,camp):
-
         l=[]
         if camp=="perso":
             for cle, mechant in self.__mechant.items():
                 (mX,mY)=mechant.fGet()
                 if mX-self.__largeur_x_mechant/2 <= posX_missile <= mX+self.__largeur_x_mechant/2 and mY-self.__largeur_y_mechant/2 <= posY_missile <= mY+self.__largeur_y_mechant/2:
-                    print("collision")
                     l.append(cle)
                     l.append(mechant)
             if len(l)!=0:
@@ -146,12 +172,12 @@ class fenetre(Tk):
                 missile.setmort()
         elif camp=="mechant":
             mX,mY=self.__perso.fGet()
-            if mX-self.__largeur_x_mechant/2 <= posX_missile <= mX+self.__largeur_x_mechant/2 and mY-self.__largeur_y_mechant/2 <= posY_missile <= mY+self.__largeur_y_mechant/2:
-                self.__vie=self.__vie-1
+            if mX-self.__largeur_x_perso/2 <= posX_missile <= mX+self.__largeur_x_perso/2 and mY-self.__largeur_y_perso/2 <= posY_missile <= mY+self.__largeur_y_perso/2:
+                self.__nbvie=self.__nbvie-1
                 del self.__missiles[numero_missile]
                 missile.setmort()
-                if self.__vie==0:
-                    self.fGameover()
+                if self.__nbvie==0:
+                    self.fGame_over()
                 
         if posY_missile<=0 and posY_missile>=500:
                 del self.__missiles[numero_missile]

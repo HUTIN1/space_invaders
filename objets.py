@@ -1,12 +1,14 @@
+from random import random
+
 class cPerso():
     #Initialisation du perso (=vaisseau)
-    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre):
+    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre,pas):
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
         self.__posX=posX
         self.__posY=posY        
-        self.__vitesse=20
+        self.__pas=pas
         self.__canevas=canevas
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image, tags="perso")
         fenetre.bind('<Button-1>',self.fTirer)
@@ -20,20 +22,18 @@ class cPerso():
         #Fonction permettant le déplacement de notre vaisseau à gauche
     def fBougerGauche(self,event):
         if self.__posX>=30:
-            self.__vitesse = -20
-            self.__posX -= 20
-            self.__canevas.move(self.__image,self.__vitesse,0)
+            self.__posX -=self.__pas
+            self.__canevas.move(self.__image,-self.__pas,0)
 
         #Fonction permettant le déplacement de notre vaisseau à droite
     def fBougerDroite(self,event):
         if self.__posX<=470:
-            self.__vitesse = 20
-            self.__posX += 20
-            self.__canevas.move(self.__image,self.__vitesse,0)
+            self.__posX += self.__pas
+            self.__canevas.move(self.__image,self.__pas,0)
 
         #Problème avec appel de cMissile (on veut créer plusieurs missiles).      
     def fTirer(self,event):
-            self.__fen.settirer(self.__posX,self.__posY,-10,"perso")
+            self.__fen.settirer(self.__posX,self.__posY,"perso")
 
 
     def setmort(self):
@@ -46,7 +46,7 @@ class cPerso():
 
 class cMechant():
     #Initialisation du méchant
-    def __init__(self,largeurX,largeurY,tags,image,posX,posY,canevas,fenetre):
+    def __init__(self,largeurX,largeurY,tags,image,posX,posY,canevas,fenetre,pas,freq,proba_missile):
         self.__cote=1
         self.__fen=fenetre
         self.__largeurX=largeurX
@@ -56,9 +56,12 @@ class cMechant():
         self.__posY=posY        
         self.__vitesse=20
         self.__canevas=canevas
+        self.__pas=pas
+        self.__freq=freq
+        self.__proba=proba_missile
         self.__vie="vie"
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image, tags="mechant"+tags)
-        self.__fen.after(500,self.fDeplacement_mechant)
+        self.__fen.after(freq,self.fDeplacement_mechant)
         
         #Fonction permettant de retourner les positions du méchant
     def fGet(self):
@@ -76,25 +79,24 @@ class cMechant():
 
         #Fonction permettant de faire descendre les méchants sur l'écran
     def fChangeposY(self):
-        self.__posY+=20
-        self.__vitesse=20
-        self.__canevas.move(self.__image,0,self.__vitesse)
+        self.__posY+=self.__pas
+        self.__canevas.move(self.__image,0,self.__pas)
 
 
         #Fonction permettant de faire déplacer les méchants vers la droite/gauche en fonction du coté (cf fChangecote)
     def fDeplacement_mechant(self):
         if self.__cote==1: #1=le méchant se déplace vers la droite
-            self.__vitesse = 20
-            self.__posX += 20         
-            self.__canevas.move(self.__image,self.__vitesse,0)
+            self.__posX += self.__pas      
+            self.__canevas.move(self.__image,self.__pas,0)
 
-        elif self.__cote==2: #2=le méchant se déplace vers la gauche
-            self.__vitesse =  -20      
-            self.__posX -= 20
-            self.__canevas.move(self.__image,self.__vitesse,0)
+        elif self.__cote==2: #2=le méchant se déplace vers la gauche    
+            self.__posX -= self.__pas
+            self.__canevas.move(self.__image,-self.__pas,0)
             
+        if random()<self.__proba:
+            self.__fen.settirer(self.__posX,self.__posY,"mechant")
         if self.__vie=="vie":
-            self.__fen.after(100,self.fDeplacement_mechant)
+            self.__fen.after(self.__freq,self.fDeplacement_mechant)
         else:
             self.__canevas.delete("mechant"+self.__tags)
 
@@ -102,16 +104,16 @@ class cMechant():
 
 class cMissile():
     #Initialisation du missile
-    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre,numero,camp,vitesse):
+    def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre,numero,camp,vitesse,freq):
         self.__fen=fenetre
         self.__largeurX=largeurX
         self.__largeurY=largeurY
         self.__posX=posX
-        self.__posY=posY-20   
+        self.__posY=posY+vitesse   
         self.__numero=numero
-        self.__vitesse=20 
-        self.__canevas=canevas
         self.__vitesse=vitesse
+        self.__canevas=canevas
+        self.__freq=freq
         self.__vie="vie"
         self.__camp=camp
         self.__image=self.__canevas.create_image(self.__posX,self.__posY,image=image,tags="missile"+str(numero))
@@ -131,6 +133,16 @@ class cMissile():
         self.__canevas.move(self.__image,0,self.__vitesse)
         self.__fen.fCollision(self.__posX,self.__posY,self.__numero,self,self.__camp)
         if self.__vie=="vie":
-            self.__fen.after(100,self.fDeplacement_missile)
+            self.__fen.after(self.__freq,self.fDeplacement_missile)
         else:
             self.__canevas.delete("missile"+str(self.__numero))
+            
+            
+            
+            
+            
+            
+class Bloque():
+    def __init__(self,posX,posY,canevas):
+        self.__posX=posX
+        self.__posY=posY
