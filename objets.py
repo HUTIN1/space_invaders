@@ -1,6 +1,3 @@
-
-
-
 class cPerso():
     #Initialisation du perso (=vaisseau)
     def __init__(self,largeurX,largeurY,image,posX,posY,canevas,fenetre):
@@ -137,10 +134,3 @@ class cMissile():
             self.__fen.after(100,self.fDeplacement_missile)
         else:
             self.__canevas.delete("missile"+str(self.__numero))
-        
-
-        
-
-
-
-

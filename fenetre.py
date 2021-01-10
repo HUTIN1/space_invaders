@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 15 08:57:47 2020
-
 @author: nathan
 """
 
@@ -18,7 +17,7 @@ enlever le bug du bouton game
 
 from objets import cPerso, cMechant, cMissile
 
-from tkinter import Tk, Canvas, Button
+from tkinter import Tk, Canvas, Button, Label, IntVar
 
 
 
@@ -35,6 +34,7 @@ class fenetre(Tk):
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
+        self.__score=IntVar()
         self.__largeur_x_missile=largeur_x_missile
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
@@ -43,6 +43,7 @@ class fenetre(Tk):
         self.__image_fond=None
         self.__nb_tire=0
         self.creer_widget()
+
 
         #Fonction permet de créer les widget du canvas ainsi que des boutons pour quitter et lancer le jeu.
     def creer_widget(self):
@@ -55,12 +56,21 @@ class fenetre(Tk):
         self.game=Button(self,text="Game",command=self.start)
         self.game.place(x=550,y=200)
 
+        self.__score.set(0)
+        self.label_score=Label(self,textvariable=self.__score) 
+        self.label_score.place(x=550,y=100)
+
+        
+
         #Fonction permettant de définir les images et les attribuer à la classe
     def setimage(self,mechant,perso,missile):
         self.__image_mechant=mechant
         self.__image_perso=perso
         self.__image_missile=missile
-        
+        self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
+                            self.__image_perso,400,400,self.canvas,self)
+
+
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
     def settirer(self,posx,posy,vitesse,camp):
         self.__missiles[self.__nb_tire]=cMissile(self.__largeur_x_missile,self.__largeur_y_missile,
@@ -68,18 +78,22 @@ class fenetre(Tk):
         self.__nb_tire+=1
     
         
-        #Fonction permettant de lancer le programme lorsqu'on appuie sur le boutton "game", il crée les méchants et notre vaisseau
+        #Fonction permettant de lancer le programme lorsqu'on appuie sur le bouton "game", il crée les méchants et notre vaisseau
     def start(self):
-
-        self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
-                            self.__image_perso,400,400,self.canvas,self)
+        self.after(500,self.fAllmechant)
         X=100
         Y=100
         for i in range (4):
             self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
                             str(i),self.__image_mechant,X,Y,self.canvas,self)
             X=X+35
-        self.after(500,self.fAllmechant)
+        X=100
+        Y=150
+        for i in range (4,8):
+            self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
+                            str(i),self.__image_mechant,X,Y,self.canvas,self)
+            X=X+35
+
         
         
     #Fonction permettant de gérer le déplacement du "bloc" de méchants en particulier lorsque le groupe de méchant doit changer de direction
@@ -91,20 +105,28 @@ class fenetre(Tk):
                 a=1
         if a==1:
             for i in self.__mechant:
-                print(i)
                 self.__mechant[i].fChangecote()
                 self.__mechant[i].fChangeposY()
-                
-        self.after(500,self.fAllmechant)
+        if self.__nbvie!=0:
+            self.after(100,self.fAllmechant)
+            self.fVaisseau_touche()
 
         #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
-    def fGameover (self):
-        vX,vY=self.__perso.fGet()
-        for i in self.__mechant.key():
-            mX,mY=self.__mechant[i].fGet()
-            if vX==mX and vY==mY:
-                print("Perdu")
+    def fGame_over (self):
+            for cle in self.__mechant.keys():
+                self.__mechant[cle].setmort()
+            self.__mechant={}
 
+    def fVaisseau_touche(self):
+        vX,vY=self.__perso.fGet()
+        a=0
+        for mechant in self.__mechant.values():
+            mX,mY=mechant.fGet()
+            if  vY<=mY:
+                a=1
+        if a==1:
+            self.fGame_over()
+                
 
 
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile,camp):
@@ -135,4 +157,8 @@ class fenetre(Tk):
                 del self.__missiles[numero_missile]
                 missile.setmort()
 
-            
+             
+
+
+    def fScore(self):
+        self.__score.set(self.__score.get()+100000)
