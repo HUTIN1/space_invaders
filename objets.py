@@ -40,6 +40,12 @@ class cPerso():
             self.__fen.settirer(self.__nb_tire,self.__posX,self.__posY)
             self.__nb_tire+=1
 
+
+    def setmort(self):
+        self.__canevas.delete("perso")
+        print("MortPerso")
+    
+
         
 
 
@@ -64,6 +70,7 @@ class cMechant():
         return (self.__posX,self.__posY)
     
     def setmort(self):
+        print("MORT")
         self.__vie="mort" 
 
         #Fonction permettant de changer le "cote" qui est utilisé dans la fonction fDeplacement_mechant
@@ -93,10 +100,9 @@ class cMechant():
             self.__canevas.move(self.__image,self.__vitesse,0)
             
         if self.__vie=="vie":
-            self.__fen.after(500,self.fDeplacement_mechant)
+            self.__fen.after(100,self.fDeplacement_mechant)
         else:
             self.__canevas.delete("mechant"+self.__tags)
-            print("del image mechant",self.__tags)
 
 
 
