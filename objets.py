@@ -38,7 +38,7 @@ class cPerso():
 
     def setmort(self):
         self.__canevas.delete("perso")
-        print("MortPerso")
+
     
 
         

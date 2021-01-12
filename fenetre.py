@@ -96,8 +96,11 @@ class fenetre(Tk):
     def setcoeur(self,event):
         self.__nbvie+=1
         poscoeur=20+(self.__nbvie-1)*40
-        self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(self.__nbvie))
-
+        self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(self.__nbvie-1))
+        
+    def setvitessemissile(self,event):
+        self.__freq_missile=int(self.__freq_missile//2)
+        print(type(self.__freq_missile))
 
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
     def settirer(self,posx,posy,camp):
