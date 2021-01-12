@@ -26,7 +26,7 @@ largeur_y_mechant=30
 freq_mechant=200
 pas_mechant=20
 proba_missile_mechant=0.02
-nb_mechant=4
+nb_mechant=6
 nb_ligne_mechant=2
 
 largeur_blocks=20
@@ -57,5 +57,7 @@ win=PhotoImage(file="Win.gif")
 
 Jeu.setimage(mechant,perso,missile,gameover,coeur,win)
 
+Jeu.bind('m',Jeu.setcoeur)
+Jeu.bind('p',Jeu.setvitessemissile)
 
 Jeu.mainloop()

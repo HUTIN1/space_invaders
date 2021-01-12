@@ -103,6 +103,17 @@ class fenetre(Tk):
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso, 
                             self.__image_perso,400,450,self.canvas,self,self.__pas_perso) 
 
+        self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
+                            self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
+        
+    def setcoeur(self,event):
+        self.__nbvie+=1
+        poscoeur=20+(self.__nbvie-1)*40
+        self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(self.__nbvie-1))
+        
+    def setvitessemissile(self,event):
+        self.__freq_missile=int(self.__freq_missile//2)
+        print(type(self.__freq_missile))
 
     """Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles.
     Les variables posx et posy donnent la position au missile crée et camp permet de définir si le missile provient d'un méchant ou du vaisseau"""
@@ -130,7 +141,6 @@ class fenetre(Tk):
             X=100
             if j<=self.__nb_ligne_mechant-1:
                 for i in range (j*b,j*b+b):
-                    print(i)
                     self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
                                     str(i),self.__image_mechant,X,Y,self.canvas,self,self.__pas_mechant,
                                     self.__freq_mechant,self.__proba_missile_mechant)
@@ -153,6 +163,11 @@ class fenetre(Tk):
         for i in range (self.__nbvie): #Cette boucle permet de supprimer les images de nos vies en fonction du nombre de vie
             poscoeur=poscoeur+40
             self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
+        poscoeur=20
+        for i in range (self.__nbvie):
+            self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
+            poscoeur=poscoeur+40
+        self.game.configure(state='disabled') 
 
         self.game.configure(state='disabled') #Désactive le bouton game une fois que la partie est lancée
 
