@@ -1,4 +1,4 @@
-from random import random
+from random import random, randint
 
 class cPerso():
     #Initialisation du perso (=vaisseau)
@@ -142,7 +142,23 @@ class cMissile():
             
             
             
-class Bloque():
-    def __init__(self,posX,posY,canevas):
+class cBlocks():
+    def __init__(self,posX,posY,canevas,largeur,hauteur,numero):
         self.__posX=posX
         self.__posY=posY
+        self.__canevas=canevas
+        self.__numero=numero
+        canevas.create_rectangle(posX-largeur/2,posY-hauteur/2,posX+largeur/2,posY+hauteur/2,fill=self.couleurandom(),tags="bloque"+str(numero))
+        
+    def couleurandom(self):
+            couleur="#"
+            l=["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"]
+            for i in range(6):
+                couleur=couleur+l[randint(0,len(l)-1)]
+            return couleur
+        
+    def fGet(self):
+            return (self.__posX,self.__posY)
+        
+    def setmort(self):
+            self.__canevas.delete("bloque"+str(self.__numero))

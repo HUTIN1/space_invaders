@@ -15,7 +15,7 @@ enlever le bug du bouton game
 
 
 
-from objets import cPerso, cMechant, cMissile
+from objets import cPerso, cMechant, cMissile, cBlocks
 
 from tkinter import Tk, Canvas, Button, Label, IntVar
 
@@ -26,14 +26,14 @@ class fenetre(Tk):
     def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,
                  largeur_x_perso,largeur_y_perso,freq_missile,freq_mechant,
                  pas_mechant,pas_missile,pas_perso,proba_missile_mechant,nb_mechant,
-                 nb_ligne_mechant):
+                 nb_ligne_mechant,largeur_blocks,hauteur_blocks):
         Tk.__init__(self)
         self.__mechant={} #Dictionnaire contenant tous les méchants
         self.__largeur_x_mechant=largeur_x_mechant
         self.__largeur_y_mechant=largeur_y_mechant
         self.__perso=None #Création de notre vaisseau
         self.__missiles={} #Dictionnaire contenant tous les missiles
-        self.__blocks=[] 
+        self.__blocks={}
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
@@ -50,6 +50,8 @@ class fenetre(Tk):
         self.__proba_missile_mechant=proba_missile_mechant
         self.__nb_mechant=nb_mechant
         self.__nb_ligne_mechant=nb_ligne_mechant
+        self.__largeur_blocks=largeur_blocks
+        self.__hauteur_blocks=hauteur_blocks
         self.__nbvie=3
         self.__image_fond=None
         self.__nb_tire=0
@@ -79,7 +81,7 @@ class fenetre(Tk):
         self.__image_perso=perso
         self.__image_missile=missile
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
-                            self.__image_perso,400,400,self.canvas,self,self.__pas_perso)
+                            self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
 
 
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
@@ -94,7 +96,7 @@ class fenetre(Tk):
         
         #Fonction permettant de lancer le programme lorsqu'on appuie sur le bouton "game", il crée les méchants et notre vaisseau
     def start(self):
-        self.after(500,self.fAllmechant)
+        self.after(self.__freq_mechant,self.fAllmechant)
         X=100
         Y=100
         a=0
@@ -119,6 +121,19 @@ class fenetre(Tk):
                     X=X+35
                 Y+=50
 
+        nbgrosblocks=3
+        nbcolone=3
+        nbligne=3
+        for i in range(nbgrosblocks):
+            xi=i*self.__largeur_blocks*2*nbcolone
+            y=350
+            for j in range(i*nbligne,i*nbligne+nbligne):
+                x=xi
+                y+=self.__hauteur_blocks
+                for k in range(j*nbcolone,j*nbcolone+nbcolone):
+                    x+=self.__largeur_blocks
+                    self.__blocks[k]=cBlocks(x,y,self.canvas,self.__largeur_blocks,self.__hauteur_blocks,k)
+                    
 
         
         
@@ -159,6 +174,7 @@ class fenetre(Tk):
 
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile,camp):
         l=[]
+        b=[]
         if camp=="perso":
             for cle, mechant in self.__mechant.items():
                 (mX,mY)=mechant.fGet()
@@ -178,6 +194,19 @@ class fenetre(Tk):
                 missile.setmort()
                 if self.__nbvie==0:
                     self.fGame_over()
+                    
+        for cle, blocks in self.__blocks.items():
+            (mX,mY)=blocks.fGet()
+            if mX-self.__largeur_blocks/2 <= posX_missile <= mX+self.__largeur_blocks/2 and mY-self.__largeur_blocks/2 <= posY_missile <= mY+self.__hauteur_blocks/2:
+                b.append(cle)
+                b.append(blocks)
+                
+        if len(b)!=0:
+            del self.__blocks[b[0]]
+            del self.__missiles[numero_missile]
+            b[1].setmort()
+            missile.setmort()
+            
                 
         if posY_missile<=0 and posY_missile>=500:
                 del self.__missiles[numero_missile]
