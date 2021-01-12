@@ -102,9 +102,6 @@ class fenetre(Tk):
         #Le vaisseau est initialisé une seul fois et n'est jamais supprimé contrairement aux méchants,missiles et blocks.
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso, 
                             self.__image_perso,400,450,self.canvas,self,self.__pas_perso) 
-
-        self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
-                            self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
         
     def setcoeur(self,event):
         self.__nbvie+=1
@@ -158,16 +155,11 @@ class fenetre(Tk):
         self.canvas.delete('image_win')
         self.__nbvie=3
         self.__score.set(0)
-        poscoeur=10
-
-        for i in range (self.__nbvie): #Cette boucle permet de supprimer les images de nos vies en fonction du nombre de vie
-            poscoeur=poscoeur+40
-            self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
         poscoeur=20
+
         for i in range (self.__nbvie):
             self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
             poscoeur=poscoeur+40
-        self.game.configure(state='disabled') 
 
         self.game.configure(state='disabled') #Désactive le bouton game une fois que la partie est lancée
 
