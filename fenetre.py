@@ -26,7 +26,8 @@ class fenetre(Tk):
     def __init__(self,largeur_x_mechant,largeur_y_mechant,largeur_x_missile,largeur_y_missile,
                  largeur_x_perso,largeur_y_perso,freq_missile,freq_mechant,
                  pas_mechant,pas_missile,pas_perso,proba_missile_mechant,nb_mechant,
-                 nb_ligne_mechant,largeur_blocks,hauteur_blocks):
+                 nb_ligne_mechant,largeur_blocks,hauteur_blocks,nbgrosblocks,nbligneblocks,
+                 nbcolonneblocks):
         Tk.__init__(self)
         self.__mechant={} #Dictionnaire contenant tous les méchants
         self.__largeur_x_mechant=largeur_x_mechant
@@ -52,6 +53,9 @@ class fenetre(Tk):
         self.__nb_ligne_mechant=nb_ligne_mechant
         self.__largeur_blocks=largeur_blocks
         self.__hauteur_blocks=hauteur_blocks
+        self.__nbgrosblocks=nbgrosblocks
+        self.__nbligneblocks=nbligneblocks
+        self.__nbcolonneblocks=nbcolonneblocks
         self.__nbvie=3
         self.__image_fond=None
         self.__nb_tire=0
@@ -121,16 +125,14 @@ class fenetre(Tk):
                     X=X+35
                 Y+=50
 
-        nbgrosblocks=3
-        nbcolone=3
-        nbligne=3
-        for i in range(nbgrosblocks):
-            xi=i*self.__largeur_blocks*2*nbcolone
+ 
+        for i in range(self.__nbgrosblocks):
+            xi=i*self.__largeur_blocks*2*self.__nbcolonneblocks
             y=350
-            for j in range(i*nbligne,i*nbligne+nbligne):
+            for j in range(i*self.__nbligneblocks,i*self.__nbligneblocks+self.__nbligneblocks):
                 x=xi
                 y+=self.__hauteur_blocks
-                for k in range(j*nbcolone,j*nbcolone+nbcolone):
+                for k in range(j*self.__nbcolonneblocks,j*self.__nbcolonneblocks+self.__nbcolonneblocks):
                     x+=self.__largeur_blocks
                     self.__blocks[k]=cBlocks(x,y,self.canvas,self.__largeur_blocks,self.__hauteur_blocks,k)
                     
