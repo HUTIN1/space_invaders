@@ -57,7 +57,8 @@ win=PhotoImage(file="Win.gif")
 
 Jeu.setimage(mechant,perso,missile,gameover,coeur,win)
 
-Jeu.bind('m',Jeu.setcoeur)
-Jeu.bind('p',Jeu.setvitessemissile)
+"""À ne pas lire"""
+Jeu.bind('m',Jeu.setcoeur) #Commance de triche permettant de s'ajouter une vie lorqu'on appuie sur "m"
+Jeu.bind('p',Jeu.setvitessemissile) #Commande de triche permattant d'accélerer la vitesse de tous les tirs (alliés et ennemis) lorqu'on appuie sur "p"
 
 Jeu.mainloop()
