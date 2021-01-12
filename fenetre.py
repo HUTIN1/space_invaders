@@ -90,6 +90,11 @@ class fenetre(Tk):
         self.__image_coeur=coeur
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
+        
+    def setcoeur(self,event):
+        self.__nbvie+=1
+        poscoeur=20+(self.__nbvie-1)*40
+        self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(self.__nbvie))
 
 
         #Fonction permettant de créer un missile et de l'ajouter au dictionnaire self.__missiles
@@ -115,7 +120,6 @@ class fenetre(Tk):
             X=100
             if j<=self.__nb_ligne_mechant-1:
                 for i in range (j*b,j*b+b):
-                    print(i)
                     self.__mechant[str(i)]=cMechant(self.__largeur_x_mechant,self.__largeur_y_mechant,
                                     str(i),self.__image_mechant,X,Y,self.canvas,self,self.__pas_mechant,
                                     self.__freq_mechant,self.__proba_missile_mechant)
@@ -131,10 +135,10 @@ class fenetre(Tk):
         self.canvas.delete('image_gameover')
         self.__nbvie=3
         self.__score.set(0)
-        poscoeur=10
+        poscoeur=20
         for i in range (self.__nbvie):
-            poscoeur=poscoeur+40
             self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
+            poscoeur=poscoeur+40
         self.game.configure(state='disabled') 
 
  
