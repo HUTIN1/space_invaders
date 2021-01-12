@@ -24,7 +24,7 @@ pas_mechant=20
 pas_missile=10
 pas_perso=20
 proba_missile_mechant=0.02
-nb_mechant=9
+nb_mechant=4
 nb_ligne_mechant=2
 
 
@@ -39,8 +39,11 @@ Jeu.geometry("700x500")
 mechant=PhotoImage(file="mechant.gif")
 perso=PhotoImage(file="perso.gif")
 missile=PhotoImage(file="missile.gif")
+gameover=PhotoImage(file="gameover.gif")
+coeur=PhotoImage(file="coeur.gif")
 
-Jeu.setimage(mechant,perso,missile)
+
+Jeu.setimage(mechant,perso,missile,gameover,coeur)
 
 
 Jeu.mainloop()
