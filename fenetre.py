@@ -34,13 +34,14 @@ class fenetre(Tk):
         self.__largeur_y_mechant=largeur_y_mechant
         self.__perso=None #Création de notre vaisseau
         self.__missiles={} #Dictionnaire contenant tous les missiles
-        self.__blocks={}
+        self.__blocks={} #Dictionniaire contenant les blocks permettant au vaisseau de se sacher
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
         self.__image_gameover=None
         self.__image_coeur=None
-        self.__score=IntVar()
+        self.__image_win=None
+        self.__score=IntVar() 
         self.__largeur_x_missile=largeur_x_missile
         self.__largeur_y_missile=largeur_y_missile
         self.__largeur_x_perso=largeur_x_perso
@@ -82,12 +83,13 @@ class fenetre(Tk):
         
 
         #Fonction permettant de définir les images et les attribuer à la classe
-    def setimage(self,mechant,perso,missile,gameover,coeur):
+    def setimage(self,mechant,perso,missile,gameover,coeur,win):
         self.__image_mechant=mechant
         self.__image_perso=perso
         self.__image_missile=missile
         self.__image_gameover=gameover
         self.__image_coeur=coeur
+        self.__image_win=win
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
         
@@ -109,6 +111,7 @@ class fenetre(Tk):
         
         #Fonction permettant de lancer le programme lorsqu'on appuie sur le bouton "game", il crée les méchants et notre vaisseau
     def start(self):
+        self.__mechant={}
         self.after(self.__freq_mechant,self.fAllmechant)
         X=100
         Y=100
@@ -133,6 +136,7 @@ class fenetre(Tk):
                     X=X+35
                 Y+=50
         self.canvas.delete('image_gameover')
+        self.canvas.delete('image_win')
         self.__nbvie=3
         self.__score.set(0)
         poscoeur=20
@@ -179,7 +183,6 @@ class fenetre(Tk):
             self.game.configure(state='normal')
             for cle in self.__mechant.keys():
                 self.__mechant[cle].setmort()
-            self.__mechant={}
             self.canvas.create_image(250,250,image=self.__image_gameover, tags='image_gameover')
 
 
@@ -237,6 +240,7 @@ class fenetre(Tk):
                 del self.__missiles[numero_missile]
                 missile.setmort()
         if self.__mechant=={}:
+                    self.canvas.create_image(250,250,image=self.__image_win, tags='image_win')
                     self.game.configure(state='normal')
                     self.__nbvie=0
              
