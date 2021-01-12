@@ -38,6 +38,8 @@ class fenetre(Tk):
         self.__image_mechant=None
         self.__image_perso=None
         self.__image_missile=None
+        self.__image_gameover=None
+        self.__image_coeur=None
         self.__score=IntVar()
         self.__largeur_x_missile=largeur_x_missile
         self.__largeur_y_missile=largeur_y_missile
@@ -64,13 +66,13 @@ class fenetre(Tk):
 
         #Fonction permet de créer les widget du canvas ainsi que des boutons pour quitter et lancer le jeu.
     def creer_widget(self):
-        self.canvas=Canvas(self,width=500,height=500)
+        self.canvas=Canvas(self,width=500,height=500,bg="black")
         self.canvas.place(x=0,y=0)
         
-        self.quitter=Button(self,text="quitter",command=self.destroy)
+        self.quitter=Button(self,text="quitter",command=self.destroy,activebackground="red")
         self.quitter.place(x=550,y=300)
         
-        self.game=Button(self,text="Game",command=self.start)
+        self.game=Button(self,text="Game",command=self.start,activebackground="red")
         self.game.place(x=550,y=200)
 
         self.__score.set(0)
@@ -80,10 +82,12 @@ class fenetre(Tk):
         
 
         #Fonction permettant de définir les images et les attribuer à la classe
-    def setimage(self,mechant,perso,missile):
+    def setimage(self,mechant,perso,missile,gameover,coeur):
         self.__image_mechant=mechant
         self.__image_perso=perso
         self.__image_missile=missile
+        self.__image_gameover=gameover
+        self.__image_coeur=coeur
         self.__perso=cPerso(self.__largeur_x_perso,self.__largeur_y_perso,
                             self.__image_perso,400,450,self.canvas,self,self.__pas_perso)
 
@@ -124,6 +128,14 @@ class fenetre(Tk):
                                     self.__freq_mechant,self.__proba_missile_mechant)
                     X=X+35
                 Y+=50
+        self.canvas.delete('image_gameover')
+        self.__nbvie=3
+        self.__score.set(0)
+        poscoeur=10
+        for i in range (self.__nbvie):
+            poscoeur=poscoeur+40
+            self.canvas.create_image(poscoeur,50,image=self.__image_coeur, tags='coeur'+str(i))
+        self.game.configure(state='disabled') 
 
  
         for i in range(self.__nbgrosblocks):
@@ -137,6 +149,8 @@ class fenetre(Tk):
                     self.__blocks[k]=cBlocks(x,y,self.canvas,self.__largeur_blocks,self.__hauteur_blocks,k)
                     
 
+
+    
         
         
     #Fonction permettant de gérer le déplacement du "bloc" de méchants en particulier lorsque le groupe de méchant doit changer de direction
@@ -158,9 +172,12 @@ class fenetre(Tk):
 
         #Fonction permettant de finir la partie en cas de défaite en affichant GameOver
     def fGame_over (self):
+            self.game.configure(state='normal')
             for cle in self.__mechant.keys():
                 self.__mechant[cle].setmort()
             self.__mechant={}
+            self.canvas.create_image(250,250,image=self.__image_gameover, tags='image_gameover')
+
 
     def fVaisseau_touche(self):
         vX,vY=self.__perso.fGet()
@@ -188,9 +205,11 @@ class fenetre(Tk):
                 del self.__missiles[numero_missile]
                 l[1].setmort()
                 missile.setmort()
+                self.fScore()
         elif camp=="mechant":
             mX,mY=self.__perso.fGet()
             if mX-self.__largeur_x_perso/2 <= posX_missile <= mX+self.__largeur_x_perso/2 and mY-self.__largeur_y_perso/2 <= posY_missile <= mY+self.__largeur_y_perso/2:
+                self.canvas.delete("coeur"+str(self.__nbvie-1))
                 self.__nbvie=self.__nbvie-1
                 del self.__missiles[numero_missile]
                 missile.setmort()
@@ -213,9 +232,12 @@ class fenetre(Tk):
         if posY_missile<=0 and posY_missile>=500:
                 del self.__missiles[numero_missile]
                 missile.setmort()
-
+        if self.__mechant=={}:
+                    self.game.configure(state='normal')
+                    self.__nbvie=0
              
 
 
     def fScore(self):
         self.__score.set(self.__score.get()+100000)
+
