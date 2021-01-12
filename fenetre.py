@@ -5,21 +5,9 @@ Created on Tue Dec 15 08:57:47 2020
 @author: nathan
 """
 
-"""
-TO DO
-tuer plusieur méchant
-pimpé
-gameover
-enlever le bug du bouton game
-"""
-
-
 
 from objets import cPerso, cMechant, cMissile, cBlocks
-
 from tkinter import Tk, Canvas, Button, Label, IntVar
-
-
 
 class fenetre(Tk):
     #Initialisation de la fenêtre
@@ -175,9 +163,6 @@ class fenetre(Tk):
                     self.__blocks[k]=cBlocks(x,y,self.canvas,self.__largeur_blocks,self.__hauteur_blocks,k)
                     
 
-
-    
-        
         
     """Fonction permettant de gérer le déplacement du "block" de méchants en particulier lorsque le groupe de méchant doit changer de direction"""
     def  fAllmechant(self):
@@ -216,8 +201,6 @@ class fenetre(Tk):
         if a==1:
             self.fGame_over()
                 
-
-
     def fCollision(self,posX_missile,posY_missile,numero_missile,missile,camp):
         l=[]
         b=[]

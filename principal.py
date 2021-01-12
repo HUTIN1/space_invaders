@@ -7,10 +7,7 @@ Created on Tue Dec 15 09:55:28 2020
 """
 
 from tkinter import PhotoImage
-
 from fenetre import fenetre
-
-
 
 largeur_x_missile=10
 largeur_y_missile=20
@@ -35,10 +32,6 @@ nbgrosblocks=4
 nbligneblocks=3
 nbcolonneblocks=3
 
-
-
-
-
 Jeu=fenetre(largeur_x_mechant,largeur_y_mechant,largeur_x_missile,
             largeur_y_missile,largeur_x_perso,largeur_y_perso,
             freq_missile,freq_mechant,pas_mechant,pas_missile,pas_perso,
@@ -53,7 +46,6 @@ missile=PhotoImage(file="missile.gif")
 gameover=PhotoImage(file="gameover.gif")
 coeur=PhotoImage(file="coeur.gif")
 win=PhotoImage(file="Win.gif")
-
 
 Jeu.setimage(mechant,perso,missile,gameover,coeur,win)
 
