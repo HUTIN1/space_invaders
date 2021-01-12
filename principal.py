@@ -44,9 +44,10 @@ perso=PhotoImage(file="perso.gif")
 missile=PhotoImage(file="missile.gif")
 gameover=PhotoImage(file="gameover.gif")
 coeur=PhotoImage(file="coeur.gif")
+win=PhotoImage(file="Win.gif")
 
 
-Jeu.setimage(mechant,perso,missile,gameover,coeur)
+Jeu.setimage(mechant,perso,missile,gameover,coeur,win)
 
 
 Jeu.mainloop()
