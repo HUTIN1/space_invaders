@@ -7,7 +7,9 @@ Created on Tue Dec 15 09:55:28 2020
 """
 """
 Programme principal
+lien git : https://github.com/HUTIN1/space_invaders.git
 """
+
 
 
 #importation de la class fenetre et photoimage de tkinter
@@ -16,6 +18,9 @@ from fenetre import fenetre
 
 
 #-----------------------Les variables------------------------# 
+#la freq c'est la période en ms de la fonction bouger des class qui bouge toute seul
+#le pas c'est le nombre de pixel que l'objet va faire à chaque appele de la fonction bouge
+
 
 #toute les variables du missile
 largeur_x_missile=10
@@ -34,8 +39,8 @@ pas_perso=20
 #toutes les varibles des mechants
 largeur_x_mechant=35
 largeur_y_mechant=30
-freq_mechant=200
-pas_mechant=20
+freq_mechant=200    
+pas_mechant=20      
 proba_missile_mechant=0.02
 nb_mechant=6
 nb_ligne_mechant=2
